@@ -3,10 +3,11 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 import userRoutes from "./routes/user.route.js";
+import authRoutes from "./routes/auth.route.js";
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO)
+  .connect("mongodb://localhost:27017/mearn-auth")
   .then(() => {
     console.log("connected to mongo db");
   })
@@ -15,8 +16,11 @@ mongoose
   });
 const app = express();
 
+app.use(express.json());
+
 app.listen(3000, () => {
   console.log("Server listening on port 3000!!!!");
 });
 
 app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
